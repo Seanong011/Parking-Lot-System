@@ -130,4 +130,41 @@ public class Vehicle {
             return Duration.between(vehicleEntryTime, vehicleExitTime).toMinutes();
         }
     }
+
+    // Get Parking fee
+    public void calculateFee()
+    {
+        if (vehicleEntryTime == null || vehicleExitTime == null)
+        {
+            System.out.println("Error: Entry or Exit time missing.");
+            return;
+        }
+
+        long minutes = getParkingDuration();
+        double hours = minutes / 60.00;
+
+        double rate = 0;
+        if (getVehicleType().equalsIgnoreCase("TYPE 1"))
+        {
+            rate = Parking.TYPE_ONE_RATE;
+        }
+        else if (getVehicleType().equalsIgnoreCase("TYPE 2"))
+        {
+            rate = Parking.TYPE_TWO_RATE;
+        }
+        else if (vehicleType().equalsIgnoreCase("TYPE 3"))
+        {
+            rate = Parking.TYPE_THREE_RATE;
+        }
+
+        double totalFee = hours * rate;
+
+        if (status)
+        {
+            totalFee = totalFee - (hours * Parking.TYPE_DISCOUNT);
+        }
+
+        this.fee = totalFee;
+        this.feePaid = false;
+    }
 }

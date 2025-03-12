@@ -15,10 +15,11 @@ public class Management {
 		while (true)
 		{
 			System.out.println("\n--- Parking Lot Database ---");
-			System.out.println("1. Add Vehicle");
+			System.out.println("1. Add Vehicle (Entry)");
 			System.out.println("2. Check Available Slots");
-			System.out.println("3. Reset Ticket System");
-			System.out.println("4. Reset Database");
+			System.out.println("3. Remove Vehicle (Exit)");
+			System.out.println("4. Reset Ticket");
+			System.out.println("5. Reset Database");
 			System.out.println("Choose an option: ");
 
 			int option = read.nextInt();
@@ -76,29 +77,44 @@ public class Management {
 						vehicle.setFeePaid(false);
 
 						// Create vehicle object
-						// TODO: Insert vehicle details to csv file
-						lot.add(vehicle);
-						System.out.println("Approved!" + "Here is your Number: " + String.format("%04d", ticketID));
+						int ticketID = Parking.generateTicket();
+						vehicle.setTicketID(ticketID);
+						System.out.println("Approved! Here is your Number: " + String.format("%04d", ticketID));
 					}
 					break;
 				case 2:
 					{
-						System.out.println("Available Slots: " + lot.getAvailableSlot());
+						System.out.println("Available Slots: " + lot.getAvailableSlots());
 						break;
 					}
 				case 3:
 					{
-						lot.resetTicket();
-						System.out.println("Ticket Reset successful!");
+						System.out.print("Enter Ticket ID to remove vehicle: ");
+					    int ticketToRemove = read.nextInt();
+					    read.nextLine();
+					    
+					    lot.removeVehicle(ticketToRemove);
 						break;
 					}
 				case 4: 
-					break;
+					{
+					    lot.resetTicket();
+						System.out.println("Ticket Reset successful!");
+						break;
+					}
 				case 5:
 					{
-						System.out.println("Exiting Program...");
+						System.out.println("Resetting database...");
+    					CSVHandler.resetDatabase(); 
+   						Parking.resetTicket(); 
+    					break;
+					}
+				case 6:
+					{
+						System.out.println("Exiting program...");
 						read.close();
-						return;
+						System.exit(0);
+					    break;
 					}
 			}
 		}
