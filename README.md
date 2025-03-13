@@ -5,13 +5,13 @@ A CLI-based parking lot management system built in Java that automates vehicle e
 
 📌 Features
 
-✅ Vehicle Entry & Exit Management
-✅ Automated Ticket ID Generation (0000 Format, Resets Daily)
-✅ Real-time Fee Calculation (Including PWD & Senior Discounts)
-✅ CSV Database Storage & Management
-✅ Grace Period for Vehicles (48 Hours Before Data Deletion)
-✅ Dynamic Pricing Based on Vehicle Type
-✅ Overtime Checker (Automatically Removes Vehicles Past Limit)
+✅ Vehicle Entry & Exit Management<br>
+✅ Automated Ticket ID Generation (0000 Format, Resets Daily)<br>
+✅ Real-time Fee Calculation (Including PWD & Senior Discounts)<br>
+✅ CSV Database Storage & Management<br>
+✅ Grace Period for Vehicles<br>
+✅ Dynamic Pricing Based on Vehicle Type<br>
+✅ Overtime Checker<br>
 ✅ Error Handling & Data Validation
 
 
