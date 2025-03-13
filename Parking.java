@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.time.LocalDateTime;
+import java.time.Duration;
 
 public class Parking
 {
@@ -16,7 +18,7 @@ public class Parking
     private static int ticketCounter = 0;
 
     // Limit
-    private static final long OVERTIME = 1440;
+    public static final long OVERTIME = 1440;
 	 	
     // Parked vehicles
     private ArrayList<Vehicle> parkedVehicles;
@@ -26,10 +28,18 @@ public class Parking
     	this.parkedVehicles = new ArrayList<>();
     }
 
+    public ArrayList<Vehicle> getParkedVehicles()
+    {
+        return parkedVehicles;
+    }
+
     public void addVehicle(Vehicle vehicle)
     {
-        parkedVehicles.add(vehicle);
-        Database.writeToCSV(vehicle);
+        if (parkedVehicles.size() < MAX_CAPACITY)
+        {
+            parkedVehicles.add(vehicle);
+            Database.writeToCSV(vehicle);
+        }
     }
 
     public static int generateTicket()
@@ -47,6 +57,21 @@ public class Parking
     	return MAX_CAPACITY - parkedVehicles.size();
     }
 
+    public Vehicle findVehicle(int ticketID, String plateNumber)
+    {
+        System.out.println("Searching for Ticket ID: " + ticketID + " | Plate: " + plateNumber);
+
+        for (Vehicle v : parkedVehicles)
+        {
+            if (v.getTicketID() == ticketID && v.getPlateNumber().trim().equalsIgnoreCase(plateNumber.trim()))
+            {
+                System.out.println("Vehicle found");
+                return v;
+            }
+        }
+        return null;
+    }
+
     public void removeVehicle(int ticketID, String plateNumber) 
     {
         Iterator<Vehicle> iterator = parkedVehicles.iterator();
@@ -55,16 +80,11 @@ public class Parking
             Vehicle v = iterator.next();
             if (v.getTicketID() == ticketID && v.getPlateNumber().equals(plateNumber))
             {
-                v.setVehicleExitTime(LocalDateTime.now());
-                v.calculateFee(); 
-                System.out.println("Total Fee for Ticket ID " + ticketID + ": ₱" + v.getFee());
-                v.setFeePaid(true);
-
                 iterator.remove(); 
                 Database.updateCSV(parkedVehicles); 
                 return;
             }
         }
-            System.out.println("Vehicle with Ticket ID " + ticketID + "and Plate Number " + plateNumber + " not found.");
+        System.out.println("Vehicle not found.");
     }
 }

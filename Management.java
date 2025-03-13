@@ -20,6 +20,7 @@ public class Management {
 			System.out.println("3. Vehicle Exit");
 			System.out.println("4. Reset Ticket");
 			System.out.println("5. Reset Database");
+			System.out.println("6. Exit Program");
 			System.out.println("Choose an option: ");
 
 			int option = read.nextInt();
@@ -71,6 +72,8 @@ public class Management {
 						// Create vehicle object
 						int ticketID = Parking.generateTicket();
 						vehicle.setTicketID(ticketID);
+						// Add vehicle to lot
+						lot.addVehicle(vehicle);
 						
 						// Print entry receipt
 						printEntry(ticketID, plateNumber, entryTime, status);
@@ -78,22 +81,38 @@ public class Management {
 					break;
 				case 2:
 					{
-						System.out.println("Available Slots: " + lot.getAvailableSlots());
+						int avaiableSlots = lot.getAvailableSlots();
+						int occupiedSlots = Parking.MAX_CAPACITY - avaiableSlots;
+
+						System.out.println("Vehicles Parked: " + occupiedSlots);
+						System.out.println("Available Slots: " + avaiableSlots);
 						break;
 					}
 				case 3:
 					{
-						System.out.print("Enter Ticket ID and Plate Number to remove vehicle: ");
+						System.out.print("Enter Ticket ID to remove vehicle: ");
 					    int ticketToRemove = read.nextInt();
-					    String plateNumberRemove = read.nextLine();
 					    read.nextLine();
 
-					    boolean statusPaid = vehicle.getFeePaid();
+					    System.out.print("Enter Plate Number to remove vehicle: ");
+					    String plateNumberRemove = read.nextLine();
+
+					    Vehicle vehicle = lot.findVehicle(ticketToRemove, plateNumberRemove);
+					    if (vehicle == null)
+					    {
+					    	System.out.println("Error: Vehicle not found.");
+					    	break;
+					    }
+					    vehicle.setVehicleExitTime(LocalDateTime.now());
+					    LocalDateTime exitTime = vehicle.getVehicleExitTime();
+					    vehicle.setFeePaid(true);
+					    boolean feePaid = vehicle.getFeePaid();
 					    double fee = vehicle.calculateFee();
-					    long duration = vehicle.getParkingDuration();
+					    long parkingDuration = vehicle.getParkingDuration();
 					   	double discount = vehicle.getDeduction();
+					   	boolean status = vehicle.getStatus();
 					    
-					    printExit(ticketID, plateNumber, exitTime, duration, fee, status, discount);
+					    printExit(ticketToRemove, plateNumberRemove, exitTime, parkingDuration, fee, status, discount, feePaid);
 					    lot.removeVehicle(ticketToRemove, plateNumberRemove);
 						break;
 					}
@@ -131,18 +150,19 @@ public class Management {
 		System.out.println("PWD/Senior  : " + (status ? "Yes" : "No"));
 		System.out.println("--------------------------------------");
 	}
-	public static void printExit(int ticketID, String plateNumber, LocalDateTime exitTime, long parkingDuration, double fee, boolean status, double discount)
+	public static void printExit(int ticketID, String plateNumber, LocalDateTime exitTime, long parkingDuration, double fee, boolean status, double discount, boolean feePaid)
 	{
 		System.out.println("\n--------------------------------------");
 		System.out.println("   	    EXIT RECEIPT             ");
 		System.out.println("--------------------------------------");
 		System.out.println("Ticket ID     : " + String.format("%04d", ticketID));
 		System.out.println("Plate Number  : " + plateNumber);
-		System.out.println("Exit Time   : " + exitTime);
-		System.out.println("Duration      :" + duration);
-		System.out.println("Fee	      :" + fee);
+		System.out.println("Exit Time     : " + exitTime);
+		System.out.println("Duration      : " + parkingDuration);
+		System.out.println("Fee	      : " + fee);
 		System.out.println("PWD Discount  : " + (status ? "Yes" : "No"));
 		System.out.println("Discount      : " + discount);
+		System.out.println("Paid          : " + (feePaid ? "Yes" : "No"));
 		System.out.println("--------------------------------------");
 	}
 }

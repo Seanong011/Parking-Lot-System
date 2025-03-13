@@ -15,15 +15,14 @@ public class Overtime implements Runnable // Separate thread for stable scanning
 	@Override
 	public void run()
 	{
-		while(true)
+		while (true)
 		{
-			checkOvertime()
-		}
-
-		try {
-			Thread.sleep(60000);
-		} catch(InterruptedException e) {
-			e.printStackTrace();
+			checkOvertime();
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e){
+				e.printStackTrace();
+			}
 		}
 	}
 
