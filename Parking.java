@@ -23,6 +23,7 @@ public class Parking
     // Parked vehicles
     private ArrayList<Vehicle> parkedVehicles;
 
+    // Parking constructor
     public Parking()
     {
     	this.parkedVehicles = new ArrayList<>();
