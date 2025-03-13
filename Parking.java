@@ -14,6 +14,9 @@ public class Parking
 
     // Ticket counter
     private static int ticketCounter = 0;
+
+    // Limit
+    private static final long OVERTIME = 1440;
 	 	
     // Parked vehicles
     private ArrayList<Vehicle> parkedVehicles;
@@ -26,7 +29,7 @@ public class Parking
     public void addVehicle(Vehicle vehicle)
     {
         parkedVehicles.add(vehicle);
-        CSVHandler.writeToCSV(vehicle);
+        Database.writeToCSV(vehicle);
     }
 
     public static int generateTicket()
@@ -44,13 +47,13 @@ public class Parking
     	return MAX_CAPACITY - parkedVehicles.size();
     }
 
-    public void removeVehicle(int ticketID) 
+    public void removeVehicle(int ticketID, String plateNumber) 
     {
         Iterator<Vehicle> iterator = parkedVehicles.iterator();
         while (iterator.hasNext())
         {
             Vehicle v = iterator.next();
-            if (v.getTicketID() == ticketID)
+            if (v.getTicketID() == ticketID && v.getPlateNumber().equals(plateNumber))
             {
                 v.setVehicleExitTime(LocalDateTime.now());
                 v.calculateFee(); 
@@ -58,10 +61,10 @@ public class Parking
                 v.setFeePaid(true);
 
                 iterator.remove(); 
-                CSVHandler.updateCSV(parkedVehicles); 
+                Database.updateCSV(parkedVehicles); 
                 return;
             }
         }
-            System.out.println("Vehicle with Ticket ID " + ticketID + " not found.");
+            System.out.println("Vehicle with Ticket ID " + ticketID + "and Plate Number " + plateNumber + " not found.");
     }
 }

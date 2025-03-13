@@ -15,9 +15,9 @@ public class Management {
 		while (true)
 		{
 			System.out.println("\n--- Parking Lot Database ---");
-			System.out.println("1. Add Vehicle (Entry)");
+			System.out.println("1. Vehicle Entry");
 			System.out.println("2. Check Available Slots");
-			System.out.println("3. Remove Vehicle (Exit)");
+			System.out.println("3. Vehicle Exit");
 			System.out.println("4. Reset Ticket");
 			System.out.println("5. Reset Database");
 			System.out.println("Choose an option: ");
@@ -56,15 +56,7 @@ public class Management {
 						// PWD Status
 						System.out.print("Is the customer a PWD/Senior Citizen? (y/n): ");
 						String getStatus = read.nextLine().trim().toLowerCase();
-						boolean status;
-						if (getStatus.equals("y"))
-						{
-							status = true;
-						}
-						else 
-						{
-							status = false;
-						}
+						boolean status = getStatus.equals("y");
 
 						// Vehicle properties
 						Vehicle vehicle = new Vehicle();
@@ -79,7 +71,9 @@ public class Management {
 						// Create vehicle object
 						int ticketID = Parking.generateTicket();
 						vehicle.setTicketID(ticketID);
-						System.out.println("Approved! Here is your Number: " + String.format("%04d", ticketID));
+						
+						// Print entry receipt
+						printEntry(ticketID, plateNumber, entryTime, status);
 					}
 					break;
 				case 2:
@@ -89,11 +83,18 @@ public class Management {
 					}
 				case 3:
 					{
-						System.out.print("Enter Ticket ID to remove vehicle: ");
+						System.out.print("Enter Ticket ID and Plate Number to remove vehicle: ");
 					    int ticketToRemove = read.nextInt();
+					    String plateNumberRemove = read.nextLine();
 					    read.nextLine();
+
+					    boolean statusPaid = vehicle.getFeePaid();
+					    double fee = vehicle.calculateFee();
+					    long duration = vehicle.getParkingDuration();
+					   	double discount = vehicle.getDeduction();
 					    
-					    lot.removeVehicle(ticketToRemove);
+					    printExit(ticketID, plateNumber, exitTime, duration, fee, status, discount);
+					    lot.removeVehicle(ticketToRemove, plateNumberRemove);
 						break;
 					}
 				case 4: 
@@ -105,7 +106,7 @@ public class Management {
 				case 5:
 					{
 						System.out.println("Resetting database...");
-    					CSVHandler.resetDatabase(); 
+    					Database.resetDatabase(); 
    						Parking.resetTicket(); 
     					break;
 					}
@@ -118,5 +119,30 @@ public class Management {
 					}
 			}
 		}
+	}
+	public static void printEntry(int ticketID, String plateNumber, LocalDateTime entryTime, boolean status)
+	{
+		System.out.println("\n--------------------------------------");
+		System.out.println("   	    ENTRY RECEIPT             ");
+		System.out.println("--------------------------------------");
+		System.out.println("Ticket ID     : " + String.format("%04d", ticketID));
+		System.out.println("Plate Number  : " + plateNumber);
+		System.out.println("Entry Time    : " + entryTime);
+		System.out.println("PWD/Senior  : " + (status ? "Yes" : "No"));
+		System.out.println("--------------------------------------");
+	}
+	public static void printExit(int ticketID, String plateNumber, LocalDateTime exitTime, long parkingDuration, double fee, boolean status, double discount)
+	{
+		System.out.println("\n--------------------------------------");
+		System.out.println("   	    EXIT RECEIPT             ");
+		System.out.println("--------------------------------------");
+		System.out.println("Ticket ID     : " + String.format("%04d", ticketID));
+		System.out.println("Plate Number  : " + plateNumber);
+		System.out.println("Exit Time   : " + exitTime);
+		System.out.println("Duration      :" + duration);
+		System.out.println("Fee	      :" + fee);
+		System.out.println("PWD Discount  : " + (status ? "Yes" : "No"));
+		System.out.println("Discount      : " + discount);
+		System.out.println("--------------------------------------");
 	}
 }

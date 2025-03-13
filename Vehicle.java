@@ -14,7 +14,7 @@ public class Vehicle {
     private LocalDateTime vehicleExitTime; 
     private long parkingDuration; 
     private boolean feePaid = false; 
-    private double fee; 
+    private double fee = 0;
     private boolean status; 
     private double deduction;
 
@@ -63,8 +63,8 @@ public class Vehicle {
         status = personStatus;
     }
 
-    public void setDeduction(double reduction){
-        deduction = reduction;
+    public void setDeduction(double discount) {
+        deduction = discount;
     }
 
     // Getters
@@ -112,10 +112,6 @@ public class Vehicle {
         return status;
     }
 
-    public double getDeduction() {
-        return deduction;
-    }
-
     // Get parking duration
     public long getParkingDuration()
     {
@@ -124,11 +120,8 @@ public class Vehicle {
         {
             return 0;
         }
-        else 
-        {   
-            // Compute duration to long
-            return Duration.between(vehicleEntryTime, vehicleExitTime).toMinutes();
-        }
+        // Compute duration to long
+        return Duration.between(vehicleEntryTime, vehicleExitTime).toMinutes();
     }
 
     // Get Parking fee
@@ -161,10 +154,16 @@ public class Vehicle {
 
         if (status)
         {
-            totalFee = totalFee - (hours * Parking.TYPE_DISCOUNT);
+            discount = hours * Parking.TYPE_DISCOUNT;
+            totalFee = totalFee - discount;
         }
 
+        this.deduction = discount;
         this.fee = totalFee;
-        this.feePaid = false;
+        this.feePaid = true;
+    }
+
+    public void getDeduction() {
+        return deduction;
     }
 }
