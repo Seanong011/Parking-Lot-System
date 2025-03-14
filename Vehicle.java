@@ -188,9 +188,6 @@ public class Vehicle {
             totalFee -= deduction;
         }
 
-        System.out.println("📉 Debug: Discount Applied = ₱" + deduction);
-        System.out.println("🧾 Debug: Final Fee = ₱" + totalFee);
-
         this.fee = totalFee;
         return this.fee;
     }

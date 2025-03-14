@@ -14,128 +14,166 @@ public class Management {
 
 		while (true)
 		{
-			System.out.println("\n--- Parking Lot Database ---");
-			System.out.println("1. Vehicle Entry");
-			System.out.println("2. Check Available Slots");
-			System.out.println("3. Vehicle Exit");
-			System.out.println("4. Reset Ticket");
-			System.out.println("5. Reset Database");
-			System.out.println("6. Exit Program");
-			System.out.println("Choose an option: ");
+			System.out.println("\n--- Welcome to Angelite Parking Lot Database System ---");
+			System.out.println("Login as: ");
+			System.out.println("1. Operator");
+			System.out.println("2. Admin");
+			System.out.println("3. Exit Program");
+			System.out.print("Choose and option: ");
 
-			int option = read.nextInt();
+			int loginOption = read.nextInt();
 			read.nextLine();
 
-			switch(option)
+			if (loginOption == 1)
 			{
-				case 1:
-					if (lot.getAvailableSlots() == 0)
-					{
-						System.out.println("Parking lot is full! Can not accept more vehicles");
-					}
-					else 
-					{
-						// Plate No.
-						System.out.print("Enter Plate Number: ");
-						String plateNumber = read.nextLine();
+				System.out.println("\n--- Parking Lot Database ---");
+				System.out.println("1. Vehicle Entry");
+				System.out.println("2. Check Available Slots");
+				System.out.println("3. Vehicle Exit");
+				System.out.println("4. Reset Ticket");
+				System.out.println("5. View Database");
+				System.out.println("6. Return to Menu");
+				System.out.print("Choose an option: ");
 
-						// Vehicle Type
-						System.out.print("Enter Vehicle Type: ");
-						String vehicleType = read.nextLine();
+				int option = read.nextInt();
+				read.nextLine();
 
-						// Vehicle Color
-						System.out.print("Enter Vehicle Color: ");
-						String vehicleColor = read.nextLine();
+				switch(option)
+				{
+					case 1:
+						if (lot.getAvailableSlots() == 0)
+						{
+							System.out.println("Parking lot is full! Can not accept more vehicles");
+						}
+						else 
+						{
+							// Plate No.
+							System.out.print("Enter Plate Number: ");
+							String plateNumber = read.nextLine();
 
-						// Vehicle Model
-						System.out.print("Enter Vehicle Model: ");
-						String vehicleModel = read.nextLine();
+							// Vehicle Type
+							System.out.print("Enter Vehicle Type: ");
+							String vehicleType = read.nextLine();
 
-						// Time In
-						LocalDateTime entryTime = LocalDateTime.now();
+							// Vehicle Color
+							System.out.print("Enter Vehicle Color: ");
+							String vehicleColor = read.nextLine();
 
-						// PWD Status
-						System.out.print("Is the customer a PWD/Senior Citizen? (y/n): ");
-						String getStatus = read.nextLine().trim().toLowerCase();
-						boolean status = getStatus.equals("y");
+							// Vehicle Model
+							System.out.print("Enter Vehicle Model: ");
+							String vehicleModel = read.nextLine();
 
-						// Vehicle properties
-						Vehicle vehicle = new Vehicle();
-						vehicle.setPlateNumber(plateNumber);
-						vehicle.setVehicleType(vehicleType);
-						vehicle.setVehicleColor(vehicleColor);
-						vehicle.setVehicleModel(vehicleModel);
-						vehicle.setVehicleEntryTime(entryTime);
-						vehicle.setStatus(status);
-						vehicle.setFeePaid(false);
+							// Time In
+							LocalDateTime entryTime = LocalDateTime.now();
 
-						// Create vehicle object
-						int ticketID = Parking.generateTicket();
-						vehicle.setTicketID(ticketID);
-						// Add vehicle to lot
-						lot.addVehicle(vehicle);
-						
-						// Print entry receipt
-						Receipt.printEntry(ticketID, plateNumber, entryTime, status);
-					}
-					break;
-				case 2:
-					{
-						int avaiableSlots = lot.getAvailableSlots();
-						int occupiedSlots = Parking.MAX_CAPACITY - avaiableSlots;
+							// PWD Status
+							System.out.print("Is the customer a PWD/Senior Citizen? (y/n): ");
+							String getStatus = read.nextLine().trim().toLowerCase();
+							boolean status = getStatus.equals("y");
 
-						System.out.println("Vehicles Parked: " + occupiedSlots);
-						System.out.println("Available Slots: " + avaiableSlots);
+							// Vehicle properties
+							Vehicle vehicle = new Vehicle();
+							vehicle.setPlateNumber(plateNumber);
+							vehicle.setVehicleType(vehicleType);
+							vehicle.setVehicleColor(vehicleColor);
+							vehicle.setVehicleModel(vehicleModel);
+							vehicle.setVehicleEntryTime(entryTime);
+							vehicle.setStatus(status);
+							vehicle.setFeePaid(false);
+
+							// Create vehicle object
+							int ticketID = Parking.generateTicket();
+							vehicle.setTicketID(ticketID);
+							// Add vehicle to lot
+							lot.addVehicle(vehicle);
+							
+							// Print entry receipt
+							Receipt.printEntry(ticketID, plateNumber, entryTime, status);
+						}
 						break;
-					}
-				case 3:
-					{
-						System.out.print("Enter Ticket ID to remove vehicle: ");
-					    int ticketToRemove = read.nextInt();
-					    read.nextLine();
+					case 2:
+						{
+							int avaiableSlots = lot.getAvailableSlots();
+							int occupiedSlots = Parking.MAX_CAPACITY - avaiableSlots;
 
-					    System.out.print("Enter Plate Number to remove vehicle: ");
-					    String plateNumberRemove = read.nextLine();
+							System.out.println("Vehicles Parked: " + occupiedSlots);
+							System.out.println("Available Slots: " + avaiableSlots);
+							break;
+						}
+					case 3:
+						{
+							System.out.print("Enter Ticket ID to remove vehicle: ");
+						    int ticketToRemove = read.nextInt();
+						    read.nextLine();
 
-					    Vehicle vehicle = lot.findVehicle(ticketToRemove, plateNumberRemove);
-					    if (vehicle == null)
-					    {
-					    	System.out.println("Error: Vehicle not found.");
-					    	break;
-					    }
-					    vehicle.setVehicleExitTime(LocalDateTime.now());
-					    LocalDateTime exitTime = vehicle.getVehicleExitTime();
-					    vehicle.setFeePaid(true);
-					    boolean feePaid = vehicle.getFeePaid();
-					    double fee = vehicle.calculateFee();
-					    long parkingDuration = vehicle.getParkingDuration();
-					   	double discount = vehicle.getDeduction();
-					   	boolean status = vehicle.getStatus();
-					    
-					    Receipt.printExit(ticketToRemove, plateNumberRemove, exitTime, parkingDuration, fee, status, discount, feePaid);
-					    lot.removeVehicle(ticketToRemove, plateNumberRemove);
-						break;
-					}
-				case 4: 
-					{
-					    lot.resetTicket();
-						System.out.println("Ticket Reset successful!");
-						break;
-					}
-				case 5:
-					{
-						System.out.println("Resetting database...");
-    					Database.resetDatabase(); 
-   						Parking.resetTicket(); 
-    					break;
-					}
-				case 6:
-					{
-						System.out.println("Exiting program...");
-						read.close();
-						System.exit(0);
-					    break;
-					}
+						    System.out.print("Enter Plate Number to remove vehicle: ");
+						    String plateNumberRemove = read.nextLine();
+
+						    Vehicle vehicle = lot.findVehicle(ticketToRemove, plateNumberRemove);
+						    if (vehicle == null)
+						    {
+						    	System.out.println("Error: Vehicle not found.");
+						    	break;
+						    }
+						    vehicle.setVehicleExitTime(LocalDateTime.now());
+						    LocalDateTime exitTime = vehicle.getVehicleExitTime();
+						    vehicle.setFeePaid(true);
+						    boolean feePaid = vehicle.getFeePaid();
+						    double fee = vehicle.calculateFee();
+						    long parkingDuration = vehicle.getParkingDuration();
+						   	double discount = vehicle.getDeduction();
+						   	boolean status = vehicle.getStatus();
+						    
+						    Receipt.printExit(ticketToRemove, plateNumberRemove, exitTime, parkingDuration, fee, status, discount, feePaid);
+						    lot.removeVehicle(ticketToRemove, plateNumberRemove);
+							break;
+						}
+					case 4: 
+						{
+						    lot.resetTicket();
+							System.out.println("Ticket Reset successful!");
+							break;
+						}
+					case 5:
+						{
+							System.out.println("Opening Database...");
+							// Database.openCSVFile();
+	    					break;
+						}
+					case 6:
+						{
+							System.out.println("Returning to Menu");
+							continue;
+						}
+					default:
+						System.out.println("Invalid Option. Try again.");
+				}
+			}
+			else if (loginOption == 2)
+			{
+				System.out.print("Enter User: ");
+				String user = read.nextLine();
+
+				System.out.print("Enter Password: ");
+				String password = read.nextLine();
+
+				Admin admin = new Admin();
+				if (admin.login(user, password))
+				{
+					System.out.println("Admin Login Successful!");
+					admin.showMenu();
+				}
+				else
+				{
+					System.out.println("Incorrect Username or Password.");
+				}
+			}
+			else if (loginOption == 3)
+			{
+				System.out.println("Exiting program...");
+				read.close();
+				System.exit(0);
+				break;	
 			}
 		}
 	}

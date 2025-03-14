@@ -21,10 +21,10 @@ public class Receipt
 		System.out.println("Ticket ID     : " + String.format("%04d", ticketID));
 		System.out.println("Plate Number  : " + plateNumber);
 		System.out.println("Exit Time     : " + exitTime);
-		System.out.println("Duration      : " + parkingDuration);
-		System.out.println("Fee	      : " + fee);
+		System.out.println("Duration      : " + parkingDuration + " minutes");
 		System.out.println("PWD Discount  : " + (status ? "Yes" : "No"));
 		System.out.println("Discount      : " + discount);
+		System.out.println("Fee	      : " + fee);
 		System.out.println("Paid          : " + (feePaid ? "Yes" : "No"));
 		System.out.println("--------------------------------------");
 	}
