@@ -103,7 +103,7 @@ public class Database
         try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME))) 
         {
             writer.println("TicketID,PlateNumber,VehicleType,Color,Model,EntryTime,ExitTime,FeePaid,Fee");
-            System.out.println("Database reset successfully.");
+            System.out.println("Database reset successfull.");
         } 
         catch (IOException e) 
         {

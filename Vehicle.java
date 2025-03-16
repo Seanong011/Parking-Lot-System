@@ -170,8 +170,6 @@ public class Vehicle {
             rate = Parking.TYPE_THREE;
         }
 
-        System.out.println("Debug: Rate Per Hour = ₱" + rate);
-
         double totalFee = hours * rate;
 
         if (status)

@@ -45,7 +45,6 @@ public class Admin
 					System.out.println("Resetting System...");
 					Database.resetDatabase();
 					lot.clearParkingLot();
-					System.out.println("Database has been reset successfully.");
 					break;
 				}
 				case 3:

@@ -12,6 +12,11 @@ public class Management {
 		// Parking Lot
 		Parking lot = new Parking();
 
+        // Overtime
+        Overtime overtime = new Overtime(lot);
+        Thread overtimeScan = new Thread(overtime);
+        overtimeScan.start();
+
 		while (true)
 		{
 			System.out.println("\n--- Welcome to Angelite Parking Lot Database System ---");
@@ -138,7 +143,7 @@ public class Management {
                             }
                         case 5:
                             {
-                                System.out.println("View Vehicles...");
+                                System.out.println("Viewing Vehicles...");
                                 Database.openCSV();
                                 break;
                             }
