@@ -18,7 +18,7 @@ public class Parking
     private static int ticketCounter = 0;
 
     // Limit
-    public static final long OVERTIME = 1440;
+    public static final long OVERTIME = 2;
 	 	
     // Parked vehicles
     private ArrayList<Vehicle> parkedVehicles;
@@ -26,7 +26,7 @@ public class Parking
     // Parking constructor
     public Parking()
     {
-    	this.parkedVehicles = new ArrayList<>();
+        this.parkedVehicles = new ArrayList<>(Database.readFromCSV());
     }
 
     public ArrayList<Vehicle> getParkedVehicles()
@@ -41,6 +41,11 @@ public class Parking
             parkedVehicles.add(vehicle);
             Database.writeToCSV(vehicle);
         }
+    }
+
+    public void clearParkingLot()
+    {
+        parkedVehicles.clear();
     }
 
     public static int generateTicket()

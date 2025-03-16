@@ -139,17 +139,9 @@ public class Vehicle {
     public long getParkingDuration()
     {
         // Condition
-        if (vehicleEntryTime == null || vehicleExitTime == null)
-        {
-            return 0;
-        }
+        LocalDateTime exitTime = (vehicleExitTime == null) ? LocalDateTime.now() : vehicleExitTime;
         // Compute duration to long
-        long duration = Duration.between(vehicleEntryTime, vehicleExitTime).toMinutes();
-        System.out.println("Debug: Entry Time = " + vehicleEntryTime);
-        System.out.println("Debug: Exit Time  = " + vehicleExitTime);
-        System.out.println("Debug: Duration  = " + duration + " minutes");
-
-        return duration;
+        return Duration.between(vehicleEntryTime, exitTime).toMinutes();
     }
 
     // Get Parking fee

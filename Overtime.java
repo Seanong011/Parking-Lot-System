@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.time.LocalDateTime;
 import java.time.Duration;
 
-public class Overtime implements Runnable // Separate thread for stable scanning
+public class Overtime implements Runnable // thread for stable scanning from runnable interface
 {
 	private Parking lot;
 
@@ -19,7 +19,7 @@ public class Overtime implements Runnable // Separate thread for stable scanning
 		{
 			checkOvertime();
 			try {
-				Thread.sleep(60000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e){
 				e.printStackTrace();
 			}
@@ -37,7 +37,7 @@ public class Overtime implements Runnable // Separate thread for stable scanning
 			{
 				int removeID = v.getTicketID();
 				String removePlateNumber = v.getPlateNumber();
-				System.out.println("Removing vehicle with Ticket ID " + removeID + "and Plate Number: " + removePlateNumber);
+				System.out.println("\nRemoving vehicle with Ticket ID " + String.format("%04d", removeID) + " and Plate Number: " + removePlateNumber);
 				lot.removeVehicle(removeID, removePlateNumber);
 				// Update database
 				Database.updateCSV(lot.getParkedVehicles());

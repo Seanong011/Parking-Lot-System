@@ -2,12 +2,19 @@ import java.util.Scanner;
 
 public class Admin
 {
-	private String admin = "Admin";
-	private String pass = "!Admin123";
+	private Parking lot;
+
+	public Admin(Parking lot)
+	{
+		this.lot = lot;
+	}
+
+	private String adminUsername = "Admin";
+	private String adminPassword = "!Admin123";
 
 	public boolean login(String user, String password)
 	{
-		return user.equals(admin) && pass.equals(password);
+		return user.equals(adminUsername) && password.equals(adminPassword);
 	}
 
 	public void showMenu()
@@ -17,7 +24,7 @@ public class Admin
 		while (true)
 		{
 			System.out.println("\n--- Admin Menu ---");
-			System.out.println("1. Edit CSV Database");
+			System.out.println("1. View CSV Database");
 			System.out.println("2. Reset Database");
 			System.out.println("3. Logout");
 			System.out.print("Choose an option: ");
@@ -29,14 +36,16 @@ public class Admin
 			{
 				case 1: 
 				{
-					System.out.println("Opening Database in edit mode...");
-					// Database.editCSV();
+					System.out.println("Opening Database...");
+					Database.openCSV();
 					break;
 				}
 				case 2:
 				{
-					System.out.println("Resetting database...");
+					System.out.println("Resetting System...");
 					Database.resetDatabase();
+					lot.clearParkingLot();
+					System.out.println("Database has been reset successfully.");
 					break;
 				}
 				case 3:
