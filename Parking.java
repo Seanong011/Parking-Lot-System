@@ -1,7 +1,7 @@
 import java.util.ArrayList;
+import java.time.Duration;
 import java.util.Iterator;
 import java.time.LocalDateTime;
-import java.time.Duration;
 
 public class Parking
 {

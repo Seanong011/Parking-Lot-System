@@ -1,8 +1,9 @@
 // Import libraries
-import java.time.LocalDateTime;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
-public class Vehicle {
+public class Vehicle 
+{
     // Vehicle variables
     private String plateNumber;
     private String vehicleType;
@@ -135,7 +136,6 @@ public class Vehicle {
         return status;
     }
 
-    // Get parking duration
     public long getParkingDuration()
     {
         // Condition
@@ -144,7 +144,6 @@ public class Vehicle {
         return Duration.between(vehicleEntryTime, exitTime).toMinutes();
     }
 
-    // Get Parking fee
     public double calculateFee()
     {
         if (vehicleEntryTime == null || vehicleExitTime == null)
