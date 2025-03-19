@@ -57,9 +57,9 @@ public class Management {
     			if (loginOption == 1)
     			{
                     int option = 0;
-                    boolean operatorInput = false;
+                    boolean operatorInput = true;
 
-                    while (!operatorInput)
+                    while (operatorInput)
                     {
                         System.out.println("\n--- Parking Lot Database ---");
                         System.out.println("1. Vehicle Entry");
@@ -99,6 +99,7 @@ public class Management {
                                 }
                                 else 
                                 {
+                                    // hasNumeric already calls getString in its own.
                                     // Plate No.
                                     String plateNumber = InputValidation.getString("Enter Plate Number: ");
 
@@ -106,10 +107,10 @@ public class Management {
                                     String vehicleType = InputValidation.getType("Enter Vehicle Type (Type 1 / Type 2 / Type 3): ");
 
                                     // Vehicle Color
-                                    String vehicleColor = InputValidation.getString("Enter Vehicle Color: ");
+                                    String vehicleColor = InputValidation.hasNumeric("Enter Vehicle Color: ");
 
                                     // Vehicle Model
-                                    String vehicleModel = InputValidation.getString("Enter Vehicle Model: ");
+                                    String vehicleModel = InputValidation.hasNumeric("Enter Vehicle Model: ");
 
                                     // Time In
                                     LocalDateTime entryTime = LocalDateTime.now();
@@ -149,21 +150,23 @@ public class Management {
                                 }
                             case 3:
                                 {
+                                    int ticketToRemove = -1;
                                     System.out.print("Enter Ticket ID to remove vehicle: ");
                                     try 
                                     {
-                                        int ticketToRemove = read.nextInt();
+                                        ticketToRemove = read.nextInt();
                                         read.nextLine();
                                     }
                                     catch (InputMismatchException e)
                                     {
                                         System.out.println("Invalid Option");
+                                        read.nextLine();
+                                        return;
                                     }
 
-                                    System.out.print("Enter Plate Number to remove vehicle: ");
                                     String plateNumberRemove = InputValidation.getString("Enter Plate Number to remove vehicle: ");
-
                                     Vehicle vehicle = lot.findVehicle(ticketToRemove, plateNumberRemove);
+
                                     if (vehicle == null)
                                     {
                                         System.out.println("Error: Vehicle not found.");

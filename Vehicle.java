@@ -1,4 +1,3 @@
-// Import libraries
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -140,7 +139,7 @@ public class Vehicle
     {
         // Condition
         LocalDateTime exitTime = (vehicleExitTime == null) ? LocalDateTime.now() : vehicleExitTime;
-        // Compute duration to long
+        // Compute duration to long.
         return Duration.between(vehicleEntryTime, exitTime).toMinutes();
     }
 
@@ -153,7 +152,7 @@ public class Vehicle
         }
 
         long minutes = getParkingDuration();
-        double hours = minutes / 60.0;
+        double hours = Math.ceil(minutes / 60.0);
 
         double rate = 0;
         if (getVehicleType().equalsIgnoreCase("TYPE 1"))

@@ -23,8 +23,8 @@ public class Receipt
 		System.out.println("Exit Time     : " + exitTime);
 		System.out.println("Duration      : " + parkingDuration + " minutes");
 		System.out.println("PWD Discount  : " + (status ? "Yes" : "No"));
-		System.out.println("Discount      : " + discount);
-		System.out.println("Fee	      : " + fee);
+		System.out.println("Discount      : " + discount + " Php");
+		System.out.println("Fee	      : " + fee + " Php");
 		System.out.println("Paid          : " + (feePaid ? "Yes" : "No"));
 		System.out.println("--------------------------------------");
 	}

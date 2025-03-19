@@ -7,7 +7,7 @@ public class Database
 {
     private static final String FILE_NAME = "parking_data.csv";
 
-    // Write new vehicle data to CSV
+    // Writes new vehicle data to CSV
     public static void writeToCSV(Vehicle vehicle) 
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME, true))) {
@@ -29,7 +29,7 @@ public class Database
         }
     }
 
-    // Load data from previous session
+    // Loads data from previous session
     public static List<Vehicle> readFromCSV() 
     {
         List<Vehicle> vehicles = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Database
         return vehicles;
     }
 
-    // Update CSV file when a vehicle exits
+    // Updates CSV file when a vehicle exits
     public static void updateCSV(List<Vehicle> vehicles) 
     {
         try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME))) 

@@ -3,7 +3,8 @@ import java.util.Iterator;
 import java.time.LocalDateTime;
 import java.time.Duration;
 
-public class Overtime implements Runnable // thread for stable scanning from runnable interface
+// thread for consistent scanning from runnable interface
+public class Overtime implements Runnable
 {
 	private Parking lot;
 
@@ -11,7 +12,7 @@ public class Overtime implements Runnable // thread for stable scanning from run
 	{
 		this.lot = lot;
 	}
-
+	
 	@Override
 	public void run()
 	{
