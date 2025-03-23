@@ -18,7 +18,7 @@ public class Parking
     private static int ticketCounter = 0;
 
     // Limit
-    public static final long OVERTIME = 2;
+    public static final long OVERTIME = 1440;
 	 	
     // Parked vehicles
     private ArrayList<Vehicle> parkedVehicles;
