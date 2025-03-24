@@ -8,8 +8,7 @@ public class Vehicle
     private String vehicleType;
     private String vehicleColor;
     private String vehicleModel;
-    private int ticketID; 
-    private int parkingSlotNumber; 
+    private int ticketID;  
     private LocalDateTime vehicleEntryTime; 
     private LocalDateTime vehicleExitTime; 
     private long parkingDuration; 
@@ -42,11 +41,6 @@ public class Vehicle
     public void setTicketID(int entranceTicket) 
     {
         ticketID = entranceTicket;
-    }
-
-    public void setParkingSlotNumber(int slotNumber) 
-    {
-        parkingSlotNumber = slotNumber;
     }
 
     public void setVehicleEntryTime(LocalDateTime entryTime) 
@@ -103,11 +97,6 @@ public class Vehicle
     public int getTicketID() 
     {
         return ticketID;
-    }
-
-    public int getParkingSlotNumber() 
-    {
-        return parkingSlotNumber;
     }
 
     public LocalDateTime getVehicleEntryTime() 
